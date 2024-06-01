@@ -1,6 +1,17 @@
 import css from './MovieList.module.css';
 import { Link } from 'react-router-dom';
-export default function MovieList({ data, title, overview, image, link }) {
+import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+export default function MovieList({
+  data,
+  title,
+  overview,
+  image,
+  link,
+  linkMovie,
+}) {
+  const location = useLocation();
+  console.log(location);
   return (
     <div>
       <ul className={css.list}>
@@ -12,9 +23,12 @@ export default function MovieList({ data, title, overview, image, link }) {
                 alt={movie.original_title}
               />
             )}
-            {title && <h3>{movie.original_title}</h3>}
-            {link && (
-              <Link to={`movies/${movie.id}`}>{movie.original_title}</Link>
+            {title && <h3>{movie.title}</h3>}
+            {link && <Link to={`movies/${movie.id}`}>{movie.title}</Link>}
+            {linkMovie && (
+              <Link to={`${movie.id}`} state={location}>
+                {movie.title}
+              </Link>
             )}
             {overview && <p>{movie.overview}</p>}
           </li>

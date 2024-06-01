@@ -16,6 +16,7 @@ export default function MoviesReviews() {
   return (
     <main>
       <h1>Movie Reviews</h1>
+      {reviews && reviews.length === 0 && <h2>No reviews yet..</h2>}
       <ul>
         {reviews &&
           reviews.map(review => {

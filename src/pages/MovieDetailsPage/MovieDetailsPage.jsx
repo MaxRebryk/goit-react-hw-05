@@ -1,41 +1,44 @@
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { getData, getCredits } from '../../tdbApi';
+import { getDetails } from '../../tdbApi';
 import { Link } from 'react-router-dom';
 import css from './MovieDetailsPage.module.css';
+import GoBack from '../../components/GoBack/GoBack';
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
   const IntMovieId = parseInt(movieId);
   const [data, setData] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
-    async function fetchData() {
-      const result = await getData();
-      setData(result.results);
+    async function fetchData(IntMovieId) {
+      const result = await getDetails(IntMovieId);
+      setData(result);
     }
-    fetchData();
-  }, []);
+    fetchData(IntMovieId);
+  }, [IntMovieId]);
 
   if (!data) {
     return <div>Loading...</div>;
   }
+  console.log(location);
 
-  const chosenMovie = data.find(movie => movie.id === IntMovieId);
   return (
     <main>
-      {chosenMovie && (
+      {data && (
         <div>
           <img
-            src={`https://image.tmdb.org/t/p/w500${chosenMovie.poster_path}`}
-            alt={chosenMovie.original_title}
+            src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+            alt={data.original_title}
           />
-          <h2>{chosenMovie.original_title}</h2>
-          <h3>User score: {chosenMovie.vote_average}</h3>
+          <h2>{data.original_title}</h2>
+          <h3>User score: {data.vote_average}</h3>
 
-          <p>{chosenMovie.overview}</p>
+          <p>{data.overview}</p>
         </div>
       )}
+      <GoBack location={location} />
       <h2>Additional information:</h2>
 
       <Link to={'reviews'} className={css.link}>

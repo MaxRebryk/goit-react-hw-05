@@ -15,11 +15,11 @@ export default function HomePage() {
   if (!data) {
     return <div>Loading...</div>;
   }
-  console.log(data);
 
   return (
     <main>
       <h1>Popular Films</h1>
+
       <MovieList
         data={data.results}
         title={false}
