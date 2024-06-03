@@ -1,12 +1,11 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-export default function GoBack() {
+export default function GoBack({ previousLocation }) {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleClick = () => {
-    if (location.state) {
-      navigate(location.state);
+    if (previousLocation) {
+      navigate(previousLocation);
     } else {
       navigate('/');
     }

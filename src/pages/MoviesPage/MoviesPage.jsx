@@ -6,23 +6,27 @@ import MovieList from '../../components/MovieList/MovieList';
 import { useSearchParams } from 'react-router-dom';
 
 export default function MoviesPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchRequest = searchParams.get('search') || '';
+  const [searchResults, setSearchResults] = useState([]);
+
+  async function fetchSearchResults(request) {
+    const result = await getSearchResults(request);
+    setSearchResults(result.results);
+  }
+
   const handleSubmit = values => {
-    setsearchRequest(values.search);
+    setSearchParams({ search: values.search });
   };
 
-  const [searchRequest, setsearchRequest] = useState('');
-  const [searchResults, setsearchResults] = useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
-
   useEffect(() => {
-    async function fetchSearchResults() {
-      const result = await getSearchResults(searchRequest);
-      setsearchResults(result.results);
+    if (searchRequest) {
+      fetchSearchResults(searchRequest);
     }
-    fetchSearchResults(searchRequest);
-    setSearchParams({ search: searchRequest });
   }, [searchRequest]);
-  const initialValues = { search: searchParams.get('search') || '' };
+
+  const initialValues = { search: searchRequest };
+
   return (
     <main>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>

@@ -11,7 +11,7 @@ export default function MoviesCast() {
       setCredits(result.cast);
     }
     fetchCredits();
-  }, []);
+  }, [movieId]);
   return (
     <main>
       <h1>Movie Cast</h1>

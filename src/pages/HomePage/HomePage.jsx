@@ -20,13 +20,7 @@ export default function HomePage() {
     <main>
       <h1>Popular Films</h1>
 
-      <MovieList
-        data={data.results}
-        title={false}
-        overview={false}
-        image={false}
-        link={true}
-      />
+      <MovieList data={data.results} link={true} />
     </main>
   );
 }

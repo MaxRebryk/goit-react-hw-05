@@ -1,5 +1,5 @@
 import { Outlet, useParams, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getDetails } from '../../tdbApi';
 import { Link } from 'react-router-dom';
 import css from './MovieDetailsPage.module.css';
@@ -10,6 +10,7 @@ export default function MovieDetailsPage() {
   const IntMovieId = parseInt(movieId);
   const [data, setData] = useState(null);
   const location = useLocation();
+  const prevLocationRef = useRef(location.state);
 
   useEffect(() => {
     async function fetchData(IntMovieId) {
@@ -38,7 +39,7 @@ export default function MovieDetailsPage() {
           <p>{data.overview}</p>
         </div>
       )}
-      <GoBack location={location} />
+      <GoBack previousLocation={prevLocationRef.current} />
       <h2>Additional information:</h2>
 
       <Link to={'reviews'} className={css.link}>
